@@ -1,5 +1,10 @@
 # htmx
 
+[![Build Status](https://github.com/kyuff/htmx/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/kyuff/htmx/actions/workflows/ci.yml)
+[![Report Card](https://goreportcard.com/badge/github.com/kyuff/htmx)](https://goreportcard.com/report/github.com/kyuff/htmx/)
+[![Go Reference](https://pkg.go.dev/badge/github.com/kyuff/htmx.svg)](https://pkg.go.dev/github.com/kyuff/htmx)
+[![codecov](https://codecov.io/gh/kyuff/htmx/graph/badge.svg)](https://codecov.io/gh/kyuff/htmx)
+
 A Go package for building htmx-powered web applications. It provides an HTTP handler that manages routing, template compilation, and rendering — distinguishing between full-page requests and htmx fragment requests automatically.
 
 ## Installation
