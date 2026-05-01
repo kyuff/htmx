@@ -230,4 +230,40 @@ func TestResponse(t *testing.T) {
 			assert.Equal(t, "true", w.Header().Get("HX-Refresh"))
 		})
 	})
+
+	t.Run("WithStatus", func(t *testing.T) {
+		t.Run("override HTTP status code on a render response", func(t *testing.T) {
+			// arrange
+			var (
+				view = testView[any]("msg.html", `{{ define "msg" }}ok{{ end }}`)
+				w    = httptest.NewRecorder()
+				r    = httptest.NewRequest(http.MethodGet, "/", nil)
+			)
+
+			// act
+			resp := htmx.WithStatus(view.OK(nil), http.StatusTeapot)
+
+			// assert
+			htmx.ExportRespond(resp, w, r)
+			assert.Equal(t, http.StatusTeapot, w.Code)
+		})
+	})
+
+	t.Run("WithTrigger chained on WithTrigger", func(t *testing.T) {
+		t.Run("reuse existing withResponse wrapper", func(t *testing.T) {
+			// arrange
+			var (
+				w = httptest.NewRecorder()
+				r = httptest.NewRequest(http.MethodGet, "/", nil)
+			)
+
+			// act
+			resp := htmx.WithTrigger(htmx.WithTriggerAfterSettle(htmx.Empty(), "settled"), "fired")
+
+			// assert
+			htmx.ExportRespond(resp, w, r)
+			assert.Equal(t, "fired", w.Header().Get("HX-Trigger"))
+			assert.Equal(t, "settled", w.Header().Get("HX-Trigger-After-Settle"))
+		})
+	})
 }

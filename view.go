@@ -11,7 +11,6 @@ import (
 // a View's template content for compilation. Only types in this
 // package can implement it.
 type viewProvider interface {
-	templateContent() ([]byte, error)
 	templateName() string
 	templateFS() fs.FS
 }
@@ -45,10 +44,6 @@ func (v *View[T]) OK(data T) Response {
 		view:   v,
 		status: http.StatusOK,
 	}
-}
-
-func (v *View[T]) templateContent() ([]byte, error) {
-	return fs.ReadFile(v.fsys, v.path)
 }
 
 func (v *View[T]) templateName() string {

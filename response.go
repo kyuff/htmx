@@ -44,18 +44,13 @@ func (f HandlerFunc) Handle(r *http.Request) (Response, error) {
 // renderResponse holds template data and the originating view.
 // HTMX uses the view reference for lazy template compilation.
 type renderResponse struct {
-	data    any
-	view    viewProvider
-	status  int
-	headers http.Header
+	data   any
+	view   viewProvider
+	status int
 }
 
 func (r *renderResponse) respond(w http.ResponseWriter, _ *http.Request) {
-	writeHeaders(w, r.headers)
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if r.status != 0 && r.status != http.StatusOK {
-		w.WriteHeader(r.status)
-	}
 }
 
 // --- Non-render responses ---
